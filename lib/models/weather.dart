@@ -1,9 +1,5 @@
 import 'dart:convert';
 
-Weather weatherFromMap(String str) => Weather.fromMap(json.decode(str));
-
-String weatherToMap(Weather data) => json.encode(data.toMap());
-
 class Weather {
   Weather({
     required this.location,
@@ -15,17 +11,19 @@ class Weather {
   final Current current;
   final Forecast forecast;
 
+  factory Weather.fromJson(String str) => Weather.fromMap(json.decode(str));
+
   factory Weather.fromMap(Map<String, dynamic> json) => Weather(
-    location: Location.fromMap(json["location"]),
-    current: Current.fromMap(json["current"]),
-    forecast: Forecast.fromMap(json["forecast"]),
-  );
+        location: Location.fromMap(json["location"]),
+        current: Current.fromMap(json["current"]),
+        forecast: Forecast.fromMap(json["forecast"]),
+      );
 
   Map<String, dynamic> toMap() => {
-    "location": location.toMap(),
-    "current": current.toMap(),
-    "forecast": forecast.toMap(),
-  };
+        "location": location.toMap(),
+        "current": current.toMap(),
+        "forecast": forecast.toMap(),
+      };
 }
 
 class Current {
@@ -48,24 +46,24 @@ class Current {
   final double uv;
 
   factory Current.fromMap(Map<String, dynamic> json) => Current(
-    tempC: json["temp_c"],
-    condition: CurrentCondition.fromMap(json["condition"]),
-    windKph: json["wind_kph"],
-    humidity: json["humidity"],
-    cloud: json["cloud"],
-    feelslikeC: json["feelslike_c"],
-    uv: json["uv"],
-  );
+        tempC: json["temp_c"],
+        condition: CurrentCondition.fromMap(json["condition"]),
+        windKph: json["wind_kph"],
+        humidity: json["humidity"],
+        cloud: json["cloud"],
+        feelslikeC: json["feelslike_c"],
+        uv: json["uv"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "temp_c": tempC,
-    "condition": condition.toMap(),
-    "wind_kph": windKph,
-    "humidity": humidity,
-    "cloud": cloud,
-    "feelslike_c": feelslikeC,
-    "uv": uv,
-  };
+        "temp_c": tempC,
+        "condition": condition.toMap(),
+        "wind_kph": windKph,
+        "humidity": humidity,
+        "cloud": cloud,
+        "feelslike_c": feelslikeC,
+        "uv": uv,
+      };
 }
 
 class CurrentCondition {
@@ -77,15 +75,16 @@ class CurrentCondition {
   final String text;
   final String icon;
 
-  factory CurrentCondition.fromMap(Map<String, dynamic> json) => CurrentCondition(
-    text: json["text"],
-    icon: json["icon"],
-  );
+  factory CurrentCondition.fromMap(Map<String, dynamic> json) =>
+      CurrentCondition(
+        text: json["text"],
+        icon: json["icon"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "text": text,
-    "icon": icon,
-  };
+        "text": text,
+        "icon": icon,
+      };
 }
 
 class Forecast {
@@ -96,12 +95,13 @@ class Forecast {
   final List<Forecastday> forecastday;
 
   factory Forecast.fromMap(Map<String, dynamic> json) => Forecast(
-    forecastday: List<Forecastday>.from(json["forecastday"].map((x) => Forecastday.fromMap(x))),
-  );
+        forecastday: List<Forecastday>.from(
+            json["forecastday"].map((x) => Forecastday.fromMap(x))),
+      );
 
   Map<String, dynamic> toMap() => {
-    "forecastday": List<dynamic>.from(forecastday.map((x) => x.toMap())),
-  };
+        "forecastday": List<dynamic>.from(forecastday.map((x) => x.toMap())),
+      };
 }
 
 class Forecastday {
@@ -118,18 +118,19 @@ class Forecastday {
   final List<Hour> hour;
 
   factory Forecastday.fromMap(Map<String, dynamic> json) => Forecastday(
-    date: DateTime.parse(json["date"]),
-    day: Day.fromMap(json["day"]),
-    astro: Astro.fromMap(json["astro"]),
-    hour: List<Hour>.from(json["hour"].map((x) => Hour.fromMap(x))),
-  );
+        date: DateTime.parse(json["date"]),
+        day: Day.fromMap(json["day"]),
+        astro: Astro.fromMap(json["astro"]),
+        hour: List<Hour>.from(json["hour"].map((x) => Hour.fromMap(x))),
+      );
 
   Map<String, dynamic> toMap() => {
-    "date": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
-    "day": day.toMap(),
-    "astro": astro.toMap(),
-    "hour": List<dynamic>.from(hour.map((x) => x.toMap())),
-  };
+        "date":
+            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+        "day": day.toMap(),
+        "astro": astro.toMap(),
+        "hour": List<dynamic>.from(hour.map((x) => x.toMap())),
+      };
 }
 
 class Astro {
@@ -142,14 +143,14 @@ class Astro {
   final String sunset;
 
   factory Astro.fromMap(Map<String, dynamic> json) => Astro(
-    sunrise: json["sunrise"],
-    sunset: json["sunset"],
-  );
+        sunrise: json["sunrise"],
+        sunset: json["sunset"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "sunrise": sunrise,
-    "sunset": sunset,
-  };
+        "sunrise": sunrise,
+        "sunset": sunset,
+      };
 }
 
 class Day {
@@ -164,16 +165,16 @@ class Day {
   final DayCondition condition;
 
   factory Day.fromMap(Map<String, dynamic> json) => Day(
-    maxtempC: json["maxtemp_c"].toDouble(),
-    mintempC: json["mintemp_c"].toDouble(),
-    condition: DayCondition.fromMap(json["condition"]),
-  );
+        maxtempC: json["maxtemp_c"].toDouble(),
+        mintempC: json["mintemp_c"].toDouble(),
+        condition: DayCondition.fromMap(json["condition"]),
+      );
 
   Map<String, dynamic> toMap() => {
-    "maxtemp_c": maxtempC,
-    "mintemp_c": mintempC,
-    "condition": condition.toMap(),
-  };
+        "maxtemp_c": maxtempC,
+        "mintemp_c": mintempC,
+        "condition": condition.toMap(),
+      };
 }
 
 class DayCondition {
@@ -188,16 +189,16 @@ class DayCondition {
   final int code;
 
   factory DayCondition.fromMap(Map<String, dynamic> json) => DayCondition(
-    text: json["text"],
-    icon: json["icon"],
-    code: json["code"],
-  );
+        text: json["text"],
+        icon: json["icon"],
+        code: json["code"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "text": text,
-    "icon": icon,
-    "code": code,
-  };
+        "text": text,
+        "icon": icon,
+        "code": code,
+      };
 }
 
 class Hour {
@@ -212,16 +213,16 @@ class Hour {
   final CurrentCondition condition;
 
   factory Hour.fromMap(Map<String, dynamic> json) => Hour(
-    time: json["time"],
-    tempC: json["temp_c"].toDouble(),
-    condition: CurrentCondition.fromMap(json["condition"]),
-  );
+        time: json["time"],
+        tempC: json["temp_c"].toDouble(),
+        condition: CurrentCondition.fromMap(json["condition"]),
+      );
 
   Map<String, dynamic> toMap() => {
-    "time": time,
-    "temp_c": tempC,
-    "condition": condition.toMap(),
-  };
+        "time": time,
+        "temp_c": tempC,
+        "condition": condition.toMap(),
+      };
 }
 
 class Location {
@@ -246,24 +247,24 @@ class Location {
   final String localtime;
 
   factory Location.fromMap(Map<String, dynamic> json) => Location(
-    name: json["name"],
-    region: json["region"],
-    country: json["country"],
-    lat: json["lat"].toDouble(),
-    lon: json["lon"].toDouble(),
-    tzId: json["tz_id"],
-    localtimeEpoch: json["localtime_epoch"],
-    localtime: json["localtime"],
-  );
+        name: json["name"],
+        region: json["region"],
+        country: json["country"],
+        lat: json["lat"].toDouble(),
+        lon: json["lon"].toDouble(),
+        tzId: json["tz_id"],
+        localtimeEpoch: json["localtime_epoch"],
+        localtime: json["localtime"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "name": name,
-    "region": region,
-    "country": country,
-    "lat": lat,
-    "lon": lon,
-    "tz_id": tzId,
-    "localtime_epoch": localtimeEpoch,
-    "localtime": localtime,
-  };
+        "name": name,
+        "region": region,
+        "country": country,
+        "lat": lat,
+        "lon": lon,
+        "tz_id": tzId,
+        "localtime_epoch": localtimeEpoch,
+        "localtime": localtime,
+      };
 }

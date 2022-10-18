@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../languages/languages.dart';
@@ -31,7 +30,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<Weather>> weatherList = _getWeatherList();
+    Future<Weather> weatherList = _getWeatherList();
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -44,11 +43,11 @@ class HomeScreenState extends State<HomeScreen> {
           },
         );
       },
-      child: FutureBuilder<List<Weather>>(
+      child: FutureBuilder<Weather>(
         future: weatherList,
         builder: (_, snapshot) {
           if (snapshot.hasData) {
-            weather = snapshot.data![0];
+            weather = snapshot.data!;
             init();
             return Scaffold(
               appBar: scaffoldAppBar(),
@@ -548,7 +547,21 @@ class HomeScreenState extends State<HomeScreen> {
   DropdownButton<String> _getCityDropdown() {
     List<String> cityList = ["Baku", "London", "Istanbul", "Moscow"];
     return DropdownButton<String>(
+      dropdownColor: Colors.white,
       value: city,
+      style: const TextStyle(
+          color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+      selectedItemBuilder: (BuildContext context) {
+        return cityList.map((String value) {
+          return Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              city,
+              style: const TextStyle(color: Colors.white),
+            ),
+          );
+        }).toList();
+      },
       onChanged: (String? newCity) {
         setState(() {
           if (newCity != null) city = newCity;
@@ -563,7 +576,21 @@ class HomeScreenState extends State<HomeScreen> {
   DropdownButton<String> _getLangDropdown() {
     List<String> langList = ["en", "tr", "ru"];
     return DropdownButton<String>(
+      dropdownColor: Colors.white,
       value: lang,
+      style: const TextStyle(
+          color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+      selectedItemBuilder: (BuildContext context) {
+        return langList.map((String value) {
+          return Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              lang,
+              style: const TextStyle(color: Colors.white),
+            ),
+          );
+        }).toList();
+      },
       onChanged: (String? newLang) {
         setState(() {
           if (newLang != null) lang = newLang;
@@ -584,24 +611,19 @@ class HomeScreenState extends State<HomeScreen> {
     listForecastday = weather.forecast.forecastday;
   }
 
-  Future<List<Weather>> _getWeatherList() async {
+  Future<Weather> _getWeatherList() async {
     apiAddress =
-        "https://api.weatherapi.com/v1/forecast.json?key=7feeb90028874031b0a144523221310&q=$city&days=$days&aqi=no&alerts=no&lang=$lang";
-
+        "https://api.weatherapi.com/v1/forecast.json?key=7feeb90028874031b0a144523221310"
+        "&q=$city&days=$days&aqi=no&alerts=no&lang=$lang";
     try {
       final response = await Dio().get(
         apiAddress,
-        options: Options(
-          responseType: ResponseType.plain,
-        ),
       );
-      List<Weather> userList = [];
       if (response.statusCode == 200) {
-        List<dynamic> list = <dynamic>[];
-        list.add(jsonDecode(response.data));
-        userList = (list).map((e) => Weather.fromMap(e)).toList();
+        return Weather.fromMap(response.data);
+      } else {
+        throw Exception("404 error");
       }
-      return userList;
     } on DioError catch (e) {
       return Future.error(e.message);
     }
