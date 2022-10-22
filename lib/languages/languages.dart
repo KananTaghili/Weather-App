@@ -4,7 +4,7 @@ class Languages {
   static final List<String> weekRu = ["", "Понедельник", "Вторник          ", "Среда             ", "Четверг          ", "Пятница         ", "Суббота          ", "Воскресенье "];
 
   static final Languages en = Languages(weekEn, "Feels Like", "Sunrise", "Sunset", "Uv Index", "Low", "Medium", "High", "Very High", "Extremely High", "Wind", "Humidity", "Cloud");
-  static final Languages tr = Languages(weekTr, "Gibi hissettiriyor", "Gün doğumu", "Gün batımı", "Uv Indeksi", "Düşük", "Orta", "Yüksek", "Çok yüksek", "Son derece yüksek", "Rüzgâr", "Nem", "Bulut");
+  static final Languages tr = Languages(weekTr, "Gibi hissediliyor", "Gün doğumu", "Gün batımı", "Uv Indeksi", "Düşük", "Orta", "Yüksek", "Çok yüksek", "Son derece yüksek", "Rüzgâr", "Nem", "Bulut");
   static final Languages ru = Languages(weekRu, "Как будто", "Восход", "Закат солнца", "УФ-индекс", "Низкий", "Середина", "Высокая", "Очень высоко", "Экстремально высокий", "Ветер", "Влажность", "Облако");
 
   static final Map<String, Languages> dictionary = {"en": en, "tr": tr, "ru": ru};

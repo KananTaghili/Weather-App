@@ -613,11 +613,11 @@ class HomeScreenState extends State<HomeScreen> {
 
   Future<Weather> _getWeatherList() async {
     apiAddress =
-        "https://api.weatherapi.com/v1/forecast.json?key=7feeb90028874031b0a144523221310"
-        "&q=$city&days=$days&aqi=no&alerts=no&lang=$lang";
+        "https://api.weatherapi.com/v1/forecast.json?key=7feeb90028874031b0a144523221310";
     try {
       final response = await Dio().get(
         apiAddress,
+        queryParameters: {'lang': lang, "q": city, "days": days},
       );
       if (response.statusCode == 200) {
         return Weather.fromMap(response.data);
